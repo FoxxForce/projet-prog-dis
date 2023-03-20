@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8">
+    <title>Formulaire client</title>
+    <link href="style.css" rel="stylesheet">
+  </head>
+  <body>
+    <div id="formulaire">
+    <table>
+      <form id="form"  action="/formulaire-client" method="post">
+        <tr>
+          <p style='color: red'><%= error %></p>
+        </tr>
+        <tr>
+          <td><label for="lastname">Nom</label></td>
+          <td><input type="text" name="lastname" id="lastname" required autofocus placeholder="Dubois"></td>
+        </tr>
+        <tr>
+          <td><label for="firstname">Prénom</label></td>
+          <td><input type="text" name="firstname" id="firstname" required placeholder="Jean"></td>
+        </tr>
+        <tr>
+          <td><label for="adress">Adresse Postal</label></td>
+          <td><input type="text" name="adress" id="adress" required pattern="^[0-9]+ {1}.+$" title="13 rue de Rivoli" placeholder="13 rue de Rivoli"></td>
+        </tr>
+        <tr>
+          <td><label for="postal">Code Postal</label></td>
+          <td><input type="text" name="postal" id="postal" required pattern="^[0-9]{5}" title="75001" placeholder="75001"></td>
+        </tr>
+        <tr>
+          <td><label for="city">Ville</label></td>
+          <td><input type="text" name="city" id="city" required title="Paris" placeholder="Paris"></td>
+        </tr>
+        <tr>
+          <td>Pays</td>
+          <td><input type="text" value="France" readonly title="Livraison qu'en France"></td>
+        </tr>
+          <td><label for="supp">Information supplémentaire (code immeuble...)</label></td>
+          <td><textarea id="supp" name="supp" placeholder="Bâtiment A, Étage 5"></textarea></td>
+        </tr>
+      </tr>
+        <td><label for="phone">Téléphone</label></td>
+        <td><input type="tel" name="phone" id="phone" required pattern=[0-9]{10} title="0612345678" placeholder="0612345678"></td>
+      </tr>
+      <tr>
+        <td><label for="email">Email</label></td>
+        <td><input type="email" name="email" id="email" required pattern=^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$ title="test@test.fr" placeholder="test@test.fr"></td>
+      </tr>
+      <tr>
+        <td><label for="time">Heure de livraison (11:00-23:00)</label></td>
+        <td><input type="time" name="time" id="time" min="11:00" max="23:00" value=<%= time %>></td>
+      </tr>
+
+        </tr>
+          <td>
+            <input type="reset" name="reset" id="reset">
+            <input type="submit" name="submit" id="submit" value="Valider la commande">
+          </td>
+        </tr>
+      </form>
+    </table>
+  </div>
+  </body>
+</html>

@@ -1,0 +1,98 @@
+
+#popup{
+
+    display:none;
+    height:100%;
+    position:fixed;
+    text-align:center;
+    top:0;
+    width:100%;
+    z-index:10000;
+    background-color: lightgrey;
+}
+
+#popup > div {
+    background-color: #fff;
+    padding: 15px 5%;
+}
+
+.fermerPopup:hover {
+    background-color: black;
+}
+.boutonPopup {
+    cursor: pointer;
+    font-size: 20px;
+    margin: 20px;
+    display: inline-block;
+    font-weight: bold;
+}
+.row{
+    height: 800px;
+    overflow: scroll;
+}
+
+.boutonMenu{
+    display: block;
+}
+#bas{
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+    left: 0;
+    text-align: right;
+}
+
+
+h1{
+  text-align: center;
+}
+
+#contenu_livraison {
+    margin: auto;
+    padding: 20px;
+    border: 5px;
+    height: 100%;
+    width: 40%;
+    background-color: lightgrey;
+}
+#formulaire{
+    margin: auto;
+    padding: 20px;
+    border: 5px;
+    height: 100%;
+    width: 40%;
+    background-color: lightgrey;
+}
+#panier{
+    text-align: center;
+    
+}
+
+.nos{
+    font-size: xx-large;
+    border: solid black 1px;
+    background-color: grey;
+}
+
+.retirerPanier{
+    background-color: red;
+
+}
+.elementPanier{
+    border: solid black 1px;
+    background-color: grey;
+}
+#hpanier{
+    background-color: grey;
+}
+#panier{
+    background-color: lightgrey;
+}
+
+.photo{
+    background-color: lightgrey;
+}
+
+#bas{
+    background-color: grey;
+}

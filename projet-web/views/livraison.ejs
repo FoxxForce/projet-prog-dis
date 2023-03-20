@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8">
+    <title>Livraison</title>
+    <link href="style.css" rel="stylesheet">
+  </head>
+  <body>
+    <h1>Page de livraison pour les livreurs</h1>
+    <div id="contenu_livraison">
+      <table>
+        <tr>
+          <td>Nom et prénom du client : </td>
+          <td><%=client.nom%> <%=client.prenom%></td>
+        </tr>
+        <tr>
+          <td>Adresse du client: </td>
+          <td><%=client.adresse%> <%=client.code_postale%> <%=client.ville%></td>
+        </tr>
+        <tr>
+          <td>Info supplémentaire : </td>
+          <td><%=client.supp%></td>
+        </tr>
+        <tr>
+          <td>téléphone du client : </td>
+          <td><%=client.tel%></td>
+        </tr>
+        <tr>
+          <td>email du client : </td>
+          <td><%=client.email%></td>
+        </tr>
+        <tr>
+          <td>heure de réception de client : </td>
+          <td><%=client.heure%></td>
+        </tr>
+        <tr>
+          <td>commande numéro : </td>
+          <td><%=client.id%></td>
+        </tr>
+      </table>
+      <ul>
+      <% for(let i in commande){ %>
+        <li><%= i %>
+          <% if(i === "menu"){%>
+            <% for(let j in commande[i]){ %>
+            <ul>
+              <li><%= j %>
+                <% for(let k in commande[i][j]){ %>
+                <li>
+                  <%= k %> :
+                  <% commande[i][j][k].toString().split(",").forEach(element =>{ %>
+                    <% if(k === "prix"){%><%= element %> €
+                    <% }else if(k === "nom"){%><%= element %>
+                    <% }else{ %>
+                      <ul>
+                        <li>
+                          <%= element %>
+                        </li>
+                      </ul>
+                    <% } %>
+                  <% }); %>
+                </li>
+                <% } %>
+              </li>
+              <br>
+            </ul>
+            <% } %>
+          <% }else{ %>
+            <ul>
+              <li>
+                <% let pr = commande[i].toString().split(",") %>
+                prix du produit : <%= pr[0] %> €
+              </li>
+              <li>
+                nom du produit : <%= pr[1] %>
+              </li>
+            </ul>
+          <% } %>
+        </li>
+      <% } %>
+      </ul>
+      <form action="/deja-livre" method="post">
+        <input type="submit" name="already" value="Commande <%=client.id%> déjà livrée" />
+      </form>
+    </div>
+  </body>
+</html>

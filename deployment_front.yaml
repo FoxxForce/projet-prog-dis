@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: front-web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: front-web
+  template:
+    metadata:
+      labels:
+        app: front-web
+    spec:
+      containers:
+        - image: foxxforce/front_web_nginx:latest
+          imagePullPolicy: IfNotPresent
+          name: front-web
+          ports:
+          - containerPort: 80
+      restartPolicy: Always
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-service-web
+spec:
+  selector:
+    app: front-web
+  ports:
+    - name: http
+      protocol: TCP
+      port: 8080 # target port of the deployment
+      targetPort: 80
+      #nodePort: 30080 # node port to expose externally
+    
+

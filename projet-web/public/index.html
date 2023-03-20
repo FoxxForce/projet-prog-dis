@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8">
+    <title>Accueil</title>
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <script src="script.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <link href="style.css" rel="stylesheet">
+  </head>
+  <body>
+    <div class="row">
+      <div id="gauche" class="col-sm-9">
+      
+        <div id="bas"> <p id="prix">0€</p><button id="commander">Commander</button></div>
+        <div id="popup">
+            <div class="fermerPopup">X</div>
+            <button class="boutonPopup" id="ajoutPizza" >Ajout pizza</button>
+            <button class="boutonPopup" id="ajoutEntree" >Ajout  entrée</button>
+            <button class="boutonPopup" id="ajoutBoisson" >Ajout boisson</button>
+            <button class="boutonPopup" id="confirmer" >Confirmer</button>
+        </div>
+        <div>
+          <li class="nos" id="nosPizzas">Nos pizzas</li>
+          <ul class="deroulant" id="deroulant_pizza">
+
+          </ul>
+        
+          <li class="nos" id="nosEntrees">Nos entrées</li>
+          <ul class="deroulant" id="deroulant_entree">
+
+          </ul>
+        
+          <li class="nos" id="nosBoissons"> Nos boissons </li>
+          <ul class="deroulant" id="deroulant_boisson">
+
+          </ul>
+        </div>
+      </div>
+      <div class="col-sm-3"><h1 id="hpanier">Panier</h1>
+        <div id="panier"></div>
+      </div>
+    </div>
+    
+  
+  </body>
+</html>
+
