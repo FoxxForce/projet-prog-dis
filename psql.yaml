@@ -1,0 +1,113 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: postgres-secret
+type: kubernetes.io/basic-auth
+stringData:
+  password: test1234
+
+---
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+    name: postgres-pv-volume
+    labels:
+      type: local
+      app: psql
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteMany
+  hostPath:
+    path: "/mnt/data"
+
+---
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: postgres-pv-claim
+  labels:
+    app: psql
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 5Gi
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: psql-deployment 
+spec:
+  replicas: 1 
+  selector:
+    matchLabels:
+      app: psql 
+  template:
+    metadata:
+      labels:
+        app: psql 
+    spec:
+      containers:
+        - imagePullPolicy : IfNotPresent
+          image : foxxforce/psql:latest
+          name : psql
+          ports :
+            - containerPort : 5432
+          env:
+            - name : POSTGRES_PASSWORD #
+              valueFrom :
+                secretKeyRef :
+                  name : postgres-secret
+                  key : password
+          volumeMounts:
+            - mountPath : /var/lib/postgresql/data 
+              name : postgredb
+      volumes:
+        - name : postgredb 
+          persistentVolumeClaim :
+            claimName : postgres-pv-claim
+      restartPolicy : Always
+
+
+---
+
+apiVersion : v1 
+kind : Service
+metadata :
+   name : service-psql
+spec :
+   selector :
+     app : psql 
+   ports :
+     - protocol : TCP
+       port : 5432
+       targetPort : 5432
+
+---
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: db-ingress
+spec:
+  rules:
+  - host: pizzafoxx.com
+    http:
+      paths:
+      - path: /db
+        pathType: Prefix
+        backend:
+          service:
+            name: service-psql
+            port:
+              number: 5432
+

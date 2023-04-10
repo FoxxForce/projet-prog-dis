@@ -13,7 +13,7 @@ spec:
         app: front-web
     spec:
       containers:
-        - image: foxxforce/front_web_nginx:latest
+        - image: foxxforce/front
           imagePullPolicy: IfNotPresent
           name: front-web
           ports:
@@ -32,8 +32,147 @@ spec:
   ports:
     - name: http
       protocol: TCP
-      port: 8080 # target port of the deployment
+      port: 8080 
       targetPort: 80
-      #nodePort: 30080 # node port to expose externally
+ 
+---
+
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: serveur-web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: serveur-web
+  template:
+    metadata:
+      labels:
+        app: serveur-web
+    spec:
+      containers:
+        - image: foxxforce/serv
+          imagePullPolicy: IfNotPresent
+          name: serveur-web
+          ports:
+          - containerPort: 8080
+      restartPolicy: Always
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-serveur
+spec:
+  selector:
+    app: serveur-web
+  ports:
+    - name: http
+      protocol: TCP
+      port: 8080 
+      targetPort: 4000
+
+    
+
+---
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-front
+  annotations:
+    nginx.ingress.kubernetes.io/cors-allow-origin: "*"
+spec:
+  rules:
+  - host: pizzafoxx.com
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: my-service-web
+            port:
+              number: 8080
+      
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-serveur
+  annotations:
+    nginx.ingress.kubernetes.io/cors-allow-origin: "*"
+spec:
+  rules:
+  - host: pizzafoxx.com
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/s"
+        backend:
+          service:
+            name: service-serveur
+            port:
+              number: 8080
+      - pathType: Prefix
+        path: "/formulaire-client"
+        backend:
+          service:
+            name: service-serveur
+            port:
+              number: 8080
+      - pathType: Prefix
+        path: "/formulaire"
+        backend:
+          service:
+            name: service-serveur
+            port:
+              number: 8080
+      - pathType: Prefix
+        path: "/pizza"
+        backend:
+          service:
+            name: service-serveur
+            port:
+              number: 8080
+      - pathType: Prefix
+        path: "/boisson"
+        backend:
+          service:
+            name: service-serveur
+            port:
+              number: 8080
+      - pathType: Prefix
+        path: "/menu"
+        backend:
+          service:
+            name: service-serveur
+            port:
+              number: 8080
+      - pathType: Prefix
+        path: "/entree"
+        backend:
+          service:
+            name: service-serveur
+            port:
+              number: 8080
+      - pathType: Prefix
+        path: "/images/"
+        backend:
+          service:
+            name: service-serveur
+            port:
+              number: 8080
+      - pathType: Prefix
+        path: "/menu"
+        backend:
+          service:
+            name: service-serveur
+            port:
+              number: 8080
     
 

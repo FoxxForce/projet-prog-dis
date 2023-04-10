@@ -1,7 +1,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: my-ingress
+  name: ingress-front
 spec:
   rules:
   - host: pizzafoxx.com
@@ -12,5 +12,52 @@ spec:
         backend:
           service:
             name: my-service-web
+            port:
+              number: 8080
+
+---
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-serveur
+spec:
+  rules:
+  - host: pizzafoxx.com
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/s"
+        backend:
+          service:
+            name: service-serveur
+            port:
+              number: 8080
+      - pathType: Prefix
+        path: /formulaire-client"
+        backend:
+          service:
+            name: service-serveur
+            port:
+              number: 8080
+      - pathType: Prefix
+        path: "/formulaire"
+        backend:
+          service:
+            name: service-serveur
+            port:
+              number: 8080
+      - pathType: Prefix
+        path: "/formulaire-client"
+        backend:
+          service:
+            name: service-serveur
+            port:
+              number: 8080
+      - pathType: Prefix
+        path: "/menu"
+        backend:
+          service:
+            name: service-serveur
             port:
               number: 8080

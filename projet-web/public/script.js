@@ -74,7 +74,7 @@ $(document).ready(function() {
     $('#prix').text(prix + '€');
   }
   function ajout(e){
-    $.get("http://localhost:8080/"+ e,{},
+    $.get("http://pizzafoxx.com/"+ e,{},
     function(data) {
       let elphoto = '<div class="container-fluid '+e +'"><div class="row">';
       for(let i=0; i<data.length; i++){
@@ -113,7 +113,7 @@ $(document).ready(function() {
   ajout('entree');
   ajout('boisson');
   function menu(){
-    $.get("http://localhost:8080/menu" ,{},
+    $.get("http://pizzafoxx.com/menu" ,{},
     function(data) {
       let elphoto = "";
       for(let i=0; i<data.length; i++){
@@ -230,7 +230,7 @@ $(document).ready(function() {
   function a(){
     $('#submit').click(function(e){
       e.preventDefault();
-      $.post("http://localhost:8080/formulaire-client",  {'form' : formToJSON('#form'), 'panier' : panier},
+      $.post("http://pizzafoxx.com/formulaire-client",  {'form' : formToJSON('#form'), 'panier' : panier},
       function(data) {
         let doc = document.open('text/html', 'replace');
         doc.write(data);
@@ -240,7 +240,7 @@ $(document).ready(function() {
   });
 }
   $("#commander").click(function(){
-    $.get("http://localhost:8080/formulaire" ,{},
+    $.get("http://pizzafoxx.com/formulaire" ,{},
     function(data) {
       let doc = document.open('text/html', 'replace');
       doc.write(data);
@@ -248,7 +248,7 @@ $(document).ready(function() {
       
       $('#submit').click(function(e){
         e.preventDefault();
-        $.post("http://localhost:8080/formulaire-client",  {'form' : formToJSON('#form'), 'panier' : panier},
+        $.post("http://pizzafoxx.com/formulaire-client",  {'form' : formToJSON('#form'), 'panier' : panier},
         function(data) { 
           let doc = document.open('text/html', 'replace');
           doc.write(data);

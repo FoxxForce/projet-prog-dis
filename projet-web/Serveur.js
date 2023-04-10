@@ -1,33 +1,63 @@
 const fs = require('fs');
-
 const http = require('http');
-const hostname = '127.0.0.1';
-const port = 8080;
 const express = require("express");
 const server = express();
+const pg = require('pg');
 
 server.use(express.urlencoded({extended : true}));
 server.use(express.json());
 server.use(express.static('public'));
 server.set('view engine', 'ejs');
 
-const pg = require('pg');
 const pool = new pg.Pool({
-user: 'useradmin',
-host: 'localhost',
-database: 'projet2',
-password: 'mypass', // accès à une information externe
-port: 5432
+  user: 'useradmin',
+  host: 'service-psql.default.svc.cluster.local',
+  database: 'projet',
+  password: 'mypass',
+  port: 5432
 });
 
-eval(fs.readFileSync('functions.js')+''); //séparation du serveur et des fonctions qu'il emploit
+
+
+pool.query('SELECT * FROM pizza', (error, results) => {
+  if (error) {
+    throw error;
+  }
+  console.log(results.rows);
+});
+
+eval(fs.readFileSync('functions.js')+'');
 
 server.get('/', function (req, res) {
+  console.log("ds");
   res.sendFile("accueil.html", {root: 'public'});
 });
 
-server.listen(port, () => {
-  console.log('Server running at http://localhost:'+port);
+const port = process.env.PORT || 4000;
+const hostname = '0.0.0.0';
+
+const serverInstance = server.listen(port, hostname, () => {
+  console.log(`Server running at http://${hostname}:${port}/`);
+});
+
+pool.connect((err, client, done) => {
+  if (err) throw err;
+  console.log('Connected to PostgreSQL database');
+  client.query('SELECT NOW()', (err, res) => {
+    done();
+    if (err) {
+      console.log(err.stack);
+    } else {
+      console.log(`PostgreSQL connected at ${res.rows[0].now}`);
+    }
+  });
+});
+
+serverInstance.on('close', () => {
+  console.log('Closing PostgreSQL database connection');
+  pool.end(() => {
+    console.log('PostgreSQL pool has ended');
+  });
 });
 
 server.get("/pizza", (req, res) => {

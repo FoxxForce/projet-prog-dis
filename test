@@ -1,0 +1,17 @@
+const { Pool } = require('pg');
+const pool = new Pool({
+  user: 'useradmin',
+  host: 'service-psql.default.svc.cluster.local',
+  database: 'projet',
+  password: 'mypass',
+  port: 5432
+});
+const tableName = 'pizza';
+
+pool.query('SELECT * FROM pizza', (error, results) => {
+  if (error) {
+    throw error;
+  }
+  console.log(results.rows);
+
+});
