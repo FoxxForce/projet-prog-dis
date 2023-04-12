@@ -13,7 +13,7 @@ spec:
         app: front-web
     spec:
       containers:
-        - image: foxxforce/front
+        - image: foxxforce/front:latest
           imagePullPolicy: IfNotPresent
           name: front-web
           ports:
@@ -53,7 +53,7 @@ spec:
         app: serveur-web
     spec:
       containers:
-        - image: foxxforce/serv
+        - image: foxxforce/server:latest
           imagePullPolicy: IfNotPresent
           name: serveur-web
           ports:
@@ -169,6 +169,20 @@ spec:
               number: 8080
       - pathType: Prefix
         path: "/menu"
+        backend:
+          service:
+            name: service-serveur
+            port:
+              number: 8080
+      - pathType: Prefix
+        path: "/livraison"
+        backend:
+          service:
+            name: service-serveur
+            port:
+              number: 8080
+      - pathType: Prefix
+        path: "/deja-livre"
         backend:
           service:
             name: service-serveur
